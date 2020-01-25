@@ -9,11 +9,16 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import br.com.deveficiente.casadocodigo.categoria.CategoriaRepository;
+
 @RestController
 public class LivroController {
 
 	@Autowired
 	private LivroRepository livroRepository;
+	
+	@Autowired
+	private CategoriaRepository categoriaRepository;
 	
 	@InitBinder
 	public void init(WebDataBinder webDataBinder) {
@@ -23,7 +28,7 @@ public class LivroController {
 
 	@PostMapping(value = "/api/livro")
 	public void novoLivro(@RequestBody @Valid NovoLivroForm form) {
-		Livro novo = form.novoLivro();
+		Livro novo = form.novoLivro(categoriaRepository);
 		livroRepository.save(novo);
 	}
 
