@@ -11,7 +11,6 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 import br.com.deveficiente.casadocodigo.categoria.Categoria;
-import br.com.deveficiente.casadocodigo.categoria.CategoriaInexistenteException;
 import br.com.deveficiente.casadocodigo.categoria.CategoriaRepository;
 
 public class NovoLivroForm {
@@ -45,7 +44,7 @@ public class NovoLivroForm {
 	public Livro novoLivro(CategoriaRepository categoriaRepository) {
 		Optional<Categoria> categoria = categoriaRepository.findById(idCategoria);
 		if(!categoria.isPresent()) {
-			throw new CategoriaInexistenteException("Categoria informada não existe");
+			throw new IllegalArgumentException("Categoria informada não existe");
 		}
 		return new Livro(titulo, resumo, sumario, preco, numeroPaginas, isbn, dataPublicacao, categoria.get());
 	}
